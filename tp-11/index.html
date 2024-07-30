@@ -34,6 +34,21 @@
                             Underline (Subrayado)
                         </button>
                     </div>
+                    <div class="col-12 col-md-4 my-1">
+                        <button id="btn-color" class="btn d-block w-100 btn-primary" data-formato="color">
+                            Change (Colorcito)
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6 my-1">
+                    <input id="input-texto" type="text" placeholder="Nuevo Texto">
+                        <button id="btn-editar" class="btn btn-primary" data-formato="editar">Editar Texto</button>
+                    </div>
+                    <div class="col-12 col-md-6 my-1">
+                        Tamaño de texto <input id="input-tamano" type="range" min="10" max="40" value="16">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -42,55 +57,153 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <script type="text/javascript">
         /**
-         * funcionNegrita()
-         * esta función se va a llamar cuando el usuario selecciona la opción Bold (negrita).
-         */
-        function funcionNegrita() {
-            let elementoParrafo= document.querySelector("p#texto.texto");
-            if(elementoParrafo.style.fontWeight == "bold"){
-                elementoParrafo.style.fontWeight = null;
-            }else{
-                elementoParrafo.style.fontWeight="bold";
-            }
-            
-        }
+ * Actualiza el estado de los botones en función de los estilos aplicados.
+ */
+function updateButtonState() {
+    let texto = document.getElementById("texto");
 
-        /**
-         * funcionCursiva()
-         * esta función se va a llamar cuando el usuario selecciona la opción Bold (negrita).
-         */
-        function funcionCursiva() {
-            let elementoParrafo=document.querySelector("p#texto.texto");
-            if(elementoParrafo.style.fontStyle == "italic"){
-                elementoParrafo.style.fontStyle =null;  
-            }else{
-                elementoParrafo.style.fontStyle ="italic";
-            }
-        }
+    // Actualizar botón de negrita
+    let btnNegrita = document.getElementById("btn-negrita");
+    if (texto.style.fontWeight === "bold") {
+        btnNegrita.classList.add("btn-success");
+        btnNegrita.classList.remove("btn-primary");
+        btnNegrita.innerText = "Bold (Negrita) (Activado)";
+    } else {
+        btnNegrita.classList.add("btn-primary");
+        btnNegrita.classList.remove("btn-success");
+        btnNegrita.innerText = "Bold (Negrita)";
+    }
 
-        /**
-         * funcionSubrayado()
-         * esta función se va a llamar cuando el usuario selecciona la opción Bold (negrita).
-         */
-        function funcionSubrayado() {
-            texto.classList.toggle("text-decoration-underline");
-        }
+    // Actualizar botón de cursiva
+    let btnCursiva = document.getElementById("btn-cursiva");
+    if (texto.style.fontStyle === "italic") {
+        btnCursiva.classList.add("btn-success");
+        btnCursiva.classList.remove("btn-primary");
+        btnCursiva.innerText = "Italic (Cursiva) (Activado)";
+    } else {
+        btnCursiva.classList.add("btn-primary");
+        btnCursiva.classList.remove("btn-success");
+        btnCursiva.innerText = "Italic (Cursiva)";
+    }
 
-        function handlerBoton(e) {
-            const funcionBoton = e.target.dataset.formato;
-            switch (funcionBoton) {
-                case 'negrita':
-                    funcionNegrita();
-                    break;
-                case 'cursiva':
-                    funcionCursiva();
-                    break;
-                case 'subrayado':
-                    funcionSubrayado();
-                    break;
-            }
-        }
-        document.querySelectorAll('button.btn').forEach(e => e.addEventListener('click', handlerBoton));
+    // Actualizar botón de subrayado
+    let btnSubrayado = document.getElementById("btn-subrayado");
+    if (texto.classList.contains("text-decoration-underline")) {
+        btnSubrayado.classList.add("btn-success");
+        btnSubrayado.classList.remove("btn-primary");
+        btnSubrayado.innerText = "Underline (Subrayado) (Activado)";
+    } else {
+        btnSubrayado.classList.add("btn-primary");
+        btnSubrayado.classList.remove("btn-success");
+        btnSubrayado.innerText = "Underline (Subrayado)";
+    }
+
+    // Actualizar botón de color
+    let btnColor = document.getElementById("btn-color");
+    if (texto.classList.contains("text-info")) {
+        btnColor.classList.add("btn-success");
+        btnColor.classList.remove("btn-primary");
+        btnColor.innerText = "Change (Colorcito) (Activado)";
+    } else {
+        btnColor.classList.add("btn-primary");
+        btnColor.classList.remove("btn-success");
+        btnColor.innerText = "Change (Colorcito)";
+    }
+}
+
+/**
+ * Función para aplicar o quitar negrita.
+ */
+function funcionNegrita() {
+    let elementoParrafo = document.getElementById("texto");
+    if (elementoParrafo.style.fontWeight === "bold") {
+        elementoParrafo.style.fontWeight = null;
+    } else {
+        elementoParrafo.style.fontWeight = "bold";
+    }
+    updateButtonState();
+}
+
+/**
+ * Función para aplicar o quitar cursiva.
+ */
+function funcionCursiva() {
+    let elementoParrafo = document.getElementById("texto");
+    if (elementoParrafo.style.fontStyle === "italic") {
+        elementoParrafo.style.fontStyle = null;
+    } else {
+        elementoParrafo.style.fontStyle = "italic";
+    }
+    updateButtonState();
+}
+
+/**
+ * Función para aplicar o quitar subrayado.
+ */
+function funcionSubrayado() {
+    let texto = document.getElementById("texto");
+    texto.classList.toggle("text-decoration-underline");
+    updateButtonState();
+}
+
+/**
+ * Función para aplicar o quitar color.
+ */
+function funcionColor() {
+    let texto = document.getElementById("texto");
+    texto.classList.toggle("text-info");
+    updateButtonState();
+}
+
+/**
+ * Función para editar el texto.
+ */
+function funcionEditarTexto() {
+    let textoNuevo = document.getElementById("input-texto").value;
+    let texto = document.getElementById("texto");
+    texto.innerText = textoNuevo;
+}
+
+/**
+ * Función para cambiar el tamaño del texto.
+ */
+function funcionTamano() {
+    let inputTamano = document.getElementById("input-tamano");
+    let texto = document.getElementById("texto");
+    texto.style.fontSize = inputTamano.value + "px";
+}
+
+/**
+ * Controlador para manejar el clic en los botones.
+ */
+function handlerBoton(e) {
+    const funcionBoton = e.target.dataset.formato;
+    switch (funcionBoton) {
+        case 'negrita':
+            funcionNegrita();
+            break;
+        case 'cursiva':
+            funcionCursiva();
+            break;
+        case 'subrayado':
+            funcionSubrayado();
+            break;
+        case 'color':
+            funcionColor();
+            break;
+        case 'editar':
+            funcionEditarTexto();
+            break;
+    }
+}
+
+// Agregar eventos a los botones y al input de tamaño
+document.querySelectorAll('button.btn').forEach(e => e.addEventListener('click', handlerBoton));
+document.getElementById("input-tamano").addEventListener("input", funcionTamano);
+
+// Inicializar el estado de los botones al cargar la página
+updateButtonState();
+
     </script>
 </body>
 </html>
