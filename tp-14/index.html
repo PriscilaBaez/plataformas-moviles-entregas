@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tablero de Puntos - DOM y JavaScript</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container my-1 my-sm-2 my-md-4 my-lg-5">
+    	<h1>Tabla de Puntos</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-5">
+                        <span id="puntosLocal" class="display-1">0</span>
+                        <p class="m-0">Local</p>
+                    </div>
+                    <div class="col-2">
+                        <span class="display-1">:</span>
+                    </div>
+                    <div class="col-5">
+                        <span id="puntosVisitante" class="display-1">0</span>
+                        <p class="m-0">Visitante</p>
+                    </div>
+                </div>
+
+                <hr class="hr">
+
+                <h2>Actualizar el ccontador</h2>
+                <div class="row">
+                    <div class="col-12 col-sm-4 my-1"><button id="suma-local" class="btn d-block w-100 btn-danger">+ Local</button></div>
+                    <div class="col-12 col-sm-4 my-1"><button id="reiniciar" class="btn d-block w-100 btn-secondary">Reinicio</button></div>
+                    <div class="col-12 col-sm-4 my-1"><button id="suma-visitante" class="btn d-block w-100 btn-danger">+ Visitante</button></div>
+
+                    <div class="col-12 col-sm-4 my-1"><button id="resta-local" class="btn d-block w-100 btn-warning">- Local</button></div>
+                    <div class="col-12 col-sm-4 my-1"><button id="invertir" class="btn d-block w-100 btn-info">Invertir puntos</button></div>
+                    <div class="col-12 col-sm-4 my-1"><button id="resta-visitante" class="btn d-block w-100 btn-warning">- Visitante</button></div>
+
+                    <div class="col-12 col-sm-4 my-1"></div>
+                    <div class="col-12 col-sm-4 my-1"><button id="finalizar" class="btn d-block w-100 btn-success">Finalizar partido</button></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    
+    <script type="text/javascript">
+        let local=0;
+        let visitante=0;
+
+        
+        const localPuntos = document.getElementById('puntosLocal');
+        const visitantePuntos= document.getElementById('puntosVisitante');
+        const sumaLocal = document.getElementById('suma-local');
+        const restaLocal = document.getElementById('resta-local');
+        const sumaVisitante = document.getElementById('suma-visitante');
+        const restaVisitante = document.getElementById('resta-visitante');
+        const reiniciar = document.getElementById('reiniciar');
+        const invertir = document.getElementById('invertir');
+        const finalizar = document.getElementById('finalizar');
+
+        
+        function actualizarContador() {
+            localPuntos.textContent = local;
+            visitantePuntos.textContent = visitante;
+        }
+
+        sumaLocal.addEventListener('click', () => {
+            local++
+            actualizarContador();
+        });
+
+        sumaVisitante.addEventListener('click', () => {
+            visitante++
+            actualizarContador();
+        });
+
+        
+        restaLocal.addEventListener('click', () => {
+            local = Math.max(0, local - 1);
+            actualizarContador();
+        });
+
+        restaVisitante.addEventListener('click', () => {
+            visitante = Math.max(0, visitante - 1)
+            actualizarContador();
+        });
+
+        
+        reiniciar.addEventListener('click', () => {
+            local = 0;
+            visitante = 0;
+            actualizarContador();
+            sumaLocal.disabled = false;
+            restaLocal.disabled = false;
+            sumaVisitante.disabled = false;
+            restaVisitante.disabled = false;
+            invertir.disabled = false;
+        });
+
+        invertir.addEventListener('click', () => {
+            [local, visitante] = [visitante, local];
+            actualizarContador();
+        });
+
+        finalizar.addEventListener('click', () => {
+            sumaLocal.disabled = true;
+            restaLocal.disabled = true;
+            sumaVisitante.disabled = true;
+            restaVisitante.disabled = true;
+            reiniciar.disabled = false;
+            invertir.disabled = true;
+        });
+
+    </script>
+</body>
+</html>
